@@ -77,7 +77,6 @@ var sumBelow = function(n) {
 
   if (n <= 1 && n >= -1) {
     return 0;
-
   }
 
   if (n > 0) {
@@ -120,13 +119,45 @@ var range = function(x, y) {
 // https://www.khanacademy.org/computing/computer-science/algorithms/recursive-algorithms/a/computing-powers-of-a-number
 var exponent = function(base, exp) {
   /**
-   * I: A base and an exponent
+   * I: A base and an exponent (ints)
    * O: Whatever number base^exp power is
-   * E: The negative exponents - inverse
-   * C: The integers will be positive ( > 0)
+   * E: Negative exponents - inverse! 1/base^exp
+   *    Base = 0
+   *    Exp = 0
+   * C: The base will be >= 0
+   *    All are ints
+   *
+   *
+   * exp of 2 -> base * base
+   * exp of 3 -> base * base * base
+   * exp of 4 -> base * base * base * base
+   * etc
+   *
+   *
+   * if the exponent is 0, we return 1
+   * if the base is 0, we return 0
    *
    *
    */
+
+  if (exp === 0) {
+    return 1;
+  } else if (exp === 1) {
+    return base;
+  }
+
+  if (base === 1 || base === 0) {
+    return base;
+  }
+
+  if (exp > 0) {
+    return base * exponent(base, exp - 1);
+  } else {
+    // deal with strange float imprecision
+    var result = (1 / base) * exponent(base, exp + 1);
+    return Number(result.toPrecision(8));
+  }
+
 };
 
 // 8. Determine if a number is a power of two.
