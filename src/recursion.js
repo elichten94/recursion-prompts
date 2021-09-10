@@ -165,14 +165,52 @@ var exponent = function(base, exp) {
 // powerOfTwo(16); // true
 // powerOfTwo(10); // false
 var powerOfTwo = function(n) {
+  if (n < 1) {
+    return false;
+  }
+  if (n === 2 || n === 1) {
+    return true;
+  }
+  var half = n / 2;
+  var roundedHalf = Math.round(half);
+  if (half !== roundedHalf) {
+    return false;
+  }
+  return powerOfTwo(half);
 };
 
 // 9. Write a function that reverses a string.
 var reverse = function(string) {
+  if (string.length === 0) {
+    return string;
+  } else {
+    var lastChar = string.slice(-1);
+    var remainingString = string.slice(0, -1);
+    return lastChar + reverse(remainingString);
+  }
 };
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
+  /**
+   * I: A string
+   * O: A boolean
+   * C: Must be case insensitive
+   *    Must ignore whitespace
+   *    All inputs will be strings
+   * E: Whitespace - skip it
+   *    Odd vs even number of chars
+   *
+   *
+   * Smallest piece of data we need to handle:
+   *  A string of length 1 or 0 - by default true :)
+   *
+   *
+   */
+
+
+
+
 };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
