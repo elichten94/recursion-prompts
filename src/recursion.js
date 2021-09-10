@@ -192,25 +192,20 @@ var reverse = function(string) {
 
 // 10. Write a function that determines if a string is a palindrome.
 var palindrome = function(string) {
-  /**
-   * I: A string
-   * O: A boolean
-   * C: Must be case insensitive
-   *    Must ignore whitespace
-   *    All inputs will be strings
-   * E: Whitespace - skip it
-   *    Odd vs even number of chars
-   *
-   *
-   * Smallest piece of data we need to handle:
-   *  A string of length 1 or 0 - by default true :)
-   *
-   *
-   */
 
+  var trimmedString = string.trim();
+  var length = trimmedString.length;
+  if (length === 1 || length === 0) {
+    return true;
+  }
 
-
-
+  var firstChar = trimmedString[0].toLowerCase();
+  var lastChar = trimmedString[length - 1].toLowerCase();
+  if (firstChar === lastChar) {
+    return palindrome(trimmedString.slice(1, length - 1));
+  } else {
+    return false;
+  }
 };
 
 // 11. Write a function that returns the remainder of x divided by y without using the
@@ -219,6 +214,63 @@ var palindrome = function(string) {
 // modulo(17,5) // 2
 // modulo(22,6) // 4
 var modulo = function(x, y) {
+  /**
+   * I: A dividend and divisor
+   * O: The remainer of divd / divr
+   * C: No decimals will be tested
+   *    Cannot use Math.protoype functions
+   *    Cannot use * / or % lol
+
+   *
+   * E: 0 <= x < y  -> result is always x
+   *    other combos of + and -
+   *    Result always takes signage of x
+   *    if dividend is 0, result is 0
+   *    if divisor is 0, result is NaN
+   *
+   */
+  if (x === 0) {
+    return 0;
+  }
+  if (y === 0) {
+    return NaN;
+  }
+
+  var positiveX positiveY;
+  if (x < 0) {
+    positiveX = x - x - x;
+  } else {
+    positiveX = x;
+  }
+
+  if (y < 0) {
+    positiveY = y - y - y;
+  } else {
+    positiveY = y;
+  }
+
+  if (positiveX < positiveY) {
+    return x;
+  }
+
+  var difference = positiveX - positiveY;
+  // if positiveX - positiveY is greater or equal to positiveX:
+  if (difference >= positiveY) {
+    if ((x < 0 && y > 0) || (x > 0 && y < 0)) {
+      return modulo(x + y, y);
+    } else {
+      return modulo(x - y, y);
+    }
+
+  // if positiveX - positiveY is NOT greater or equal to positiveX
+  } else {
+    if (x < 0) {
+      result = difference - difference - difference;
+    } else {
+      result = difference;
+    }
+    return result;
+  }
 };
 
 // 12. Write a function that multiplies two numbers without using the * operator or
