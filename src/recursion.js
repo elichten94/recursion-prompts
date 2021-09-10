@@ -214,29 +214,15 @@ var palindrome = function(string) {
 // modulo(17,5) // 2
 // modulo(22,6) // 4
 var modulo = function(x, y) {
-  /**
-   * I: A dividend and divisor
-   * O: The remainer of divd / divr
-   * C: No decimals will be tested
-   *    Cannot use Math.protoype functions
-   *    Cannot use * / or % lol
 
-   *
-   * E: 0 <= x < y  -> result is always x
-   *    other combos of + and -
-   *    Result always takes signage of x
-   *    if dividend is 0, result is 0
-   *    if divisor is 0, result is NaN
-   *
-   */
-  if (x === 0) {
-    return 0;
-  }
   if (y === 0) {
     return NaN;
   }
+  if (x === 0) {
+    return 0;
+  }
 
-  var positiveX positiveY;
+  var positiveX, positiveY;
   if (x < 0) {
     positiveX = x - x - x;
   } else {
@@ -254,7 +240,6 @@ var modulo = function(x, y) {
   }
 
   var difference = positiveX - positiveY;
-  // if positiveX - positiveY is greater or equal to positiveX:
   if (difference >= positiveY) {
     if ((x < 0 && y > 0) || (x > 0 && y < 0)) {
       return modulo(x + y, y);
@@ -262,7 +247,6 @@ var modulo = function(x, y) {
       return modulo(x - y, y);
     }
 
-  // if positiveX - positiveY is NOT greater or equal to positiveX
   } else {
     if (x < 0) {
       result = difference - difference - difference;
@@ -276,6 +260,31 @@ var modulo = function(x, y) {
 // 12. Write a function that multiplies two numbers without using the * operator or
 // Math methods.
 var multiply = function(x, y) {
+  /**
+   * I: Two numbers
+   * O: The product of those two numbers
+   * E: Positive vs. negative
+   * C: Will only use ints
+   */
+
+  // "add x to itself y many times"
+
+  // smallest data to handle:
+    // once x or y is zero
+      // return 0
+
+  // what will need to force repitition:
+    // the counter variable (chose x or y) is not zero
+
+
+  // STILL NEED TO HANDLE NEGATIVES!
+  // The following will not work with negative y
+  if (x === 0 || y === 0) {
+    return 0;
+  } else {
+    return x + multiply(x, y - 1);
+  }
+
 };
 
 // 13. Write a function that divides two numbers without using the / operator or
