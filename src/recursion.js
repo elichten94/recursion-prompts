@@ -224,13 +224,13 @@ var modulo = function(x, y) {
 
   var positiveX, positiveY;
   if (x < 0) {
-    positiveX = x - x - x;
+    positiveX = 0 - x;
   } else {
     positiveX = x;
   }
 
   if (y < 0) {
-    positiveY = y - y - y;
+    positiveY = 0 - y;
   } else {
     positiveY = y;
   }
@@ -249,7 +249,7 @@ var modulo = function(x, y) {
 
   } else {
     if (x < 0) {
-      result = difference - difference - difference;
+      result = 0 - difference;
     } else {
       result = difference;
     }
@@ -260,36 +260,53 @@ var modulo = function(x, y) {
 // 12. Write a function that multiplies two numbers without using the * operator or
 // Math methods.
 var multiply = function(x, y) {
-  /**
-   * I: Two numbers
-   * O: The product of those two numbers
-   * E: Positive vs. negative
-   * C: Will only use ints
-   */
-
-  // "add x to itself y many times"
-
-  // smallest data to handle:
-    // once x or y is zero
-      // return 0
-
-  // what will need to force repitition:
-    // the counter variable (chose x or y) is not zero
-
-
-  // STILL NEED TO HANDLE NEGATIVES!
-  // The following will not work with negative y
   if (x === 0 || y === 0) {
     return 0;
+  } else if ((x > 0 && y < 0) || (x < 0 && y < 0)) {
+    return (0 - x) + multiply(x, y + 1);
   } else {
     return x + multiply(x, y - 1);
   }
-
 };
 
 // 13. Write a function that divides two numbers without using the / operator or
 // Math methods to arrive at an approximate quotient (ignore decimal endings).
 var divide = function(x, y) {
+
+  if (y === 0) {
+    return NaN;
+  }
+
+  if (x > 0 && y < 0) {
+    if (x === 0 - y) {
+      return -1;
+    } else if (x < 0 - y) {
+      return 0;
+    }
+    return -1 + divide(x + y, y);
+
+  } else if (x < 0 && y > 0) {
+
+    if (0 - x === y) {
+      return -1;
+    } else if (0 - x < y) {
+      return 0;
+    }
+    return -1 + divide(x + y, y);
+
+  } else {
+    if (x < 0 && y < 0) {
+      x = 0 - x;
+      y = 0 - y;
+    }
+
+    if (x === y) {
+      return 1;
+    } else if (x < y) {
+      return 0;
+    }
+    return 1 + divide(x - y, y);
+  }
 };
 
 // 14. Find the greatest common divisor (gcd) of two positive numbers. The GCD of two
