@@ -367,28 +367,12 @@ var compareStr = function(str1, str2) {
 // 16. Write a function that accepts a string and creates an array where each letter
 // occupies an index of the array.
 var createArray = function(str) {
-  /**
-   * I: A string
-   * O: An array of all the chars in the string
-   * C: -
-   * E: Length of 1?
-   *
-   * each char can be concated/pushed into some array
-   * for each char, we add it
-   */
-
-  //smallest case to handle:
-    // if length is 1, return the string
 
   var length = str.length;
   if (length === 1) {
     return [str];
   }
 
-
-
-  // all other situations:
-    // concatonate the first letter onto the result of the rest
   var firstLetter = str[0];
   var restOfWord = str.slice(1, length);
   return [firstLetter].concat(createArray(restOfWord));
@@ -397,56 +381,26 @@ var createArray = function(str) {
 
 // 17. Reverse the order of an array
 var reverseArr = function(array) {
-  /**
-   * I: array
-   * O: revered order of elements
-   * E: size of 1
-   *    manage odd vs even length?
-   * C: _
-   *
-   *
-   * for each eleemnt in the array,
-   *  it should wind up in the opposite place
-   *  for example,
-   *   let's say length is 5
-   *    element at index 0 winds up a index 5
-   *    element at ...   1 ... 4
-   *    ..... 2, 3
-   *
-   *  if we join two arrays like:
-   *  [1, 2, 3, 4, 5, 6, 7, 8] becomes [1] [2, 3, 4, 5, 6, 7] [8]
-   *  [8] join to [2, 3, 4....] join to [1]
-   *
-   *
-   */
 
-  // until ...
-    // we reach an array of size 1 or 0
-    // if that's the case,
   var length = array.length;
   if (length === 0 || length === 1) {
     return array;
   }
-    // get first and last elements
+
   var first = [array[0]];
   var last = [array[length - 1]];
   var remaining = array.slice(1, length - 1);
-  // join first at end, last at beginning
   return last.concat(reverseArr(remaining)).concat(first);
-  // we join them to the result of the same procedure on the remaining chunk of array
-
 };
 
 // 18. Create a new array with a given value and length.
 // buildList(0,5) // [0,0,0,0,0]
 // buildList(7,3) // [7,7,7]
 var buildList = function(value, length) {
-  // if the length is 1
   if (length === 1) {
     return [value];
   }
 
-  // otherwise return [value] concatenated with the result of buildList(value, length - 1)
   return [value].concat(buildList(value, length - 1));
 };
 
@@ -456,17 +410,68 @@ var buildList = function(value, length) {
 // For numbers which are multiples of both three and five, output “FizzBuzz” instead of the number.
 // fizzBuzz(5) // ['1','2','Fizz','4','Buzz']
 var fizzBuzz = function(n) {
+  if (n === 1) {
+    return ['1'];
+  }
+
+  var currentItem;
+  if (n % 5 === 0 && n % 3 === 0) {
+    // current gets 'FizzBuzz'
+    currentItem = 'FizzBuzz';
+  } else if (n % 5 === 0) {
+    currentItem = 'Buzz';
+  } else if (n % 3 === 0) {
+    currentItem = 'Fizz';
+  } else {
+    currentItem = n.toString();
+  }
+
+  return fizzBuzz(n - 1).concat(currentItem);
 };
 
 // 20. Count the occurrence of a value in a list.
 // countOccurrence([2,7,4,4,1,4], 4) // 3
 // countOccurrence([2,'banana',4,4,1,'banana'], 'banana') // 2
 var countOccurrence = function(array, value) {
+  var length = array.length;
+  if (length === 0) {
+    return 0;
+  }
+
+  var firstItem = array[0];
+  var restOfArray = array.slice(1, length);
+  var tally;
+  if (firstItem === value) {
+    tally = 1;
+  } else {
+    tally = 0;
+  }
+
+  return tally + countOccurrence(restOfArray, value);
 };
 
 // 21. Write a recursive version of map.
 // rMap([1,2,3], timesTwo); // [2,4,6]
 var rMap = function(array, callback) {
+  // I: Array and callback
+  // O(indiv): Resul of calling callback on an array elem
+  // C: Cannot multate the og array
+  // E: length of 0 or undef
+
+  // if the array is of length 0
+  var length = array.length;
+  if (length === 0) {
+    return array;
+  }
+  // otherwise:
+    // get the first elemenet
+  var first = array[0];
+    // get the rest of the array
+  var remainingArray = array.slice(1, length);
+    // call the callback on the first element
+  var resultElement = callback(first);
+    // join that result with the recursive call to rest of array
+  return [resultElement].concat(rMap(remainingArray, callback));
 };
 
 // 22. Write a function that counts the number of times a key occurs in an object.
