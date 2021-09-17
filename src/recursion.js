@@ -367,16 +367,87 @@ var compareStr = function(str1, str2) {
 // 16. Write a function that accepts a string and creates an array where each letter
 // occupies an index of the array.
 var createArray = function(str) {
+  /**
+   * I: A string
+   * O: An array of all the chars in the string
+   * C: -
+   * E: Length of 1?
+   *
+   * each char can be concated/pushed into some array
+   * for each char, we add it
+   */
+
+  //smallest case to handle:
+    // if length is 1, return the string
+
+  var length = str.length;
+  if (length === 1) {
+    return [str];
+  }
+
+
+
+  // all other situations:
+    // concatonate the first letter onto the result of the rest
+  var firstLetter = str[0];
+  var restOfWord = str.slice(1, length);
+  return [firstLetter].concat(createArray(restOfWord));
+
 };
 
 // 17. Reverse the order of an array
 var reverseArr = function(array) {
+  /**
+   * I: array
+   * O: revered order of elements
+   * E: size of 1
+   *    manage odd vs even length?
+   * C: _
+   *
+   *
+   * for each eleemnt in the array,
+   *  it should wind up in the opposite place
+   *  for example,
+   *   let's say length is 5
+   *    element at index 0 winds up a index 5
+   *    element at ...   1 ... 4
+   *    ..... 2, 3
+   *
+   *  if we join two arrays like:
+   *  [1, 2, 3, 4, 5, 6, 7, 8] becomes [1] [2, 3, 4, 5, 6, 7] [8]
+   *  [8] join to [2, 3, 4....] join to [1]
+   *
+   *
+   */
+
+  // until ...
+    // we reach an array of size 1 or 0
+    // if that's the case,
+  var length = array.length;
+  if (length === 0 || length === 1) {
+    return array;
+  }
+    // get first and last elements
+  var first = [array[0]];
+  var last = [array[length - 1]];
+  var remaining = array.slice(1, length - 1);
+  // join first at end, last at beginning
+  return last.concat(reverseArr(remaining)).concat(first);
+  // we join them to the result of the same procedure on the remaining chunk of array
+
 };
 
 // 18. Create a new array with a given value and length.
 // buildList(0,5) // [0,0,0,0,0]
 // buildList(7,3) // [7,7,7]
 var buildList = function(value, length) {
+  // if the length is 1
+  if (length === 1) {
+    return [value];
+  }
+
+  // otherwise return [value] concatenated with the result of buildList(value, length - 1)
+  return [value].concat(buildList(value, length - 1));
 };
 
 // 19. Implement FizzBuzz. Given integer n, return an array of the string representations of 1 to n.
