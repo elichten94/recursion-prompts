@@ -347,6 +347,21 @@ var gcd = function(x, y) {
 // compareStr('tomato', 'tomato') // true
 var compareStr = function(str1, str2) {
 
+  var str1Length = str1.length;
+  var str2Length = str2.length;
+  if ((str1Length === 0 && str2Length !== 0) || str1Length !== 0 && str2Length === 0) {
+    return false;
+  } else if (str1Length === 0 && str2Length === 0) {
+    return true;
+  }
+
+  var str1FirstChar = str1[0];
+  var str2FirstChar = str2[0];
+  if (str1FirstChar === str2FirstChar) {
+    return compareStr(str1.slice(1, str1Length), str2.slice(1, str2Length));
+  } else {
+    return false;
+  }
 };
 
 // 16. Write a function that accepts a string and creates an array where each letter
