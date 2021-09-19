@@ -543,6 +543,21 @@ var replaceKeysInObj = function(obj, oldKey, newKey) {
 // fibonacci(5); // [0,1,1,2,3,5]
 // Note: The 0 is not counted.
 var fibonacci = function(n) {
+  // in: a number
+  // out: an array to join to the previous call
+  // Constraints: any n less than 1 should return null
+  // Edgecases: -
+
+  // go until n reaches 1
+  if (n === 1) {
+    return [0];
+  } else if (n === 2) {
+    return [1];
+  }
+
+  // otherwise join an array of each returned fib number
+  var last = fibonacci(n - 1);
+  var secondToLast = fibonacci(n - 2);
 };
 
 // 26. Return the Fibonacci number located at index n of the Fibonacci sequence.
