@@ -543,21 +543,17 @@ var replaceKeysInObj = function(obj, oldKey, newKey) {
 // fibonacci(5); // [0,1,1,2,3,5]
 // Note: The 0 is not counted.
 var fibonacci = function(n) {
-  // in: a number
-  // out: an array to join to the previous call
-  // Constraints: any n less than 1 should return null
-  // Edgecases: -
-
-  // go until n reaches 1
-  if (n === 1) {
-    return [0];
-  } else if (n === 2) {
-    return [1];
+  if (n < 1) {
+    return null;
+  } else if (n === 1) {
+    return [0, 1];
   }
 
-  // otherwise join an array of each returned fib number
-  var last = fibonacci(n - 1);
-  var secondToLast = fibonacci(n - 2);
+  var previousSequence = fibonacci(n - 1);
+  var previousLength = previousSequence.length;
+  addend1 = previousSequence[previousLength - 1];
+  addend2 = previousSequence[previousLength - 2];
+  return previousSequence.concat(addend1 + addend2);
 };
 
 // 26. Return the Fibonacci number located at index n of the Fibonacci sequence.
@@ -566,17 +562,66 @@ var fibonacci = function(n) {
 // nthFibo(7); // 13
 // nthFibo(3); // 2
 var nthFibo = function(n) {
+  // we know that fib(0) should be 0
+  // also fib(1) should be 1
+  // for fib of 2,
+    // that's just fib(0) + fib(1)
+  // for a fib of 3
+  // that's just fib(1) + fib(2)
+
+  if (n === 0) {
+    return 0;
+  } else if (n === 1) {
+    return 1;
+  } else if (n < 0) {
+    return null;
+  }
+
+  return nthFibo(n - 1) + nthFibo(n - 2);
 };
 
 // 27. Given an array of words, return a new array containing each word capitalized.
 // var words = ['i', 'am', 'learning', 'recursion'];
 // capitalizedWords(words); // ['I', 'AM', 'LEARNING', 'RECURSION']
 var capitalizeWords = function(array) {
+  //I: array
+  //O: array
+  //C: smallest test is one word
+  //E: -
+
+  // smallest case:
+    // array is empty
+    // return an empty array
+  // otherwise we need to attach the capitalized first element
+  // with the remaining array
+
+  var length = array.length;
+  if (!length) {
+    return [];
+  }
+
+  var firstElement = array[0];
+  var remaining = array.slice(1, length);
+  firstElement = firstElement.toUpperCase();
+
+  return [firstElement].concat(capitalizeWords(remaining));
 };
 
 // 28. Given an array of strings, capitalize the first letter of each index.
 // capitalizeFirst(['car','poop','banana']); // ['Car','Poop','Banana']
 var capitalizeFirst = function(array) {
+
+  var length = array.length;
+  if (!length) {
+    return [];
+  }
+
+  var firstElement = array[0];
+  var remaining = array.slice(1, length);
+  var firstChar = firstElement[0];
+  var restOfWord = firstElement.slice(1, firstElement.length);
+  firstElement = firstChar.toUpperCase() + restOfWord;
+  return [firstElement].concat(capitalizeFirst(remaining));
 };
 
 // 29. Return the sum of all even numbers in an object containing nested objects.
@@ -589,16 +634,49 @@ var capitalizeFirst = function(array) {
 // };
 // nestedEvenSum(obj1); // 10
 var nestedEvenSum = function(obj) {
+  // first we iterate the obj
+  var sum = 0;
+  for (var key in obj) {
+    // if some value at a property is even numbered
+    var currentVal = obj[key];
+    if (currentVal % 2 === 0) {
+      sum += currentVal;
+    }
+    // if some value is an object literal
+    if (typeof currentVal === 'object' && !Array.isArray(currentVal)) {
+      sum += nestedEvenSum(currentVal);
+    }
+  }
+
+  return sum;
 };
 
 // 30. Flatten an array containing nested arrays.
 // flatten([1,[2],[3,[[4]]],5]); // [1,2,3,4,5]
 var flatten = function(array) {
+  var accumulator = [];
+  // iterate the array
+  array.forEach(function(item, i, arr) {
+    if (!Array.isArray(item)) {
+      accumulator.push(item);
+    } else {
+      accumulator = accumulator.concat(flatten(item));
+    }
+  });
+
+  return accumulator;
 };
 
 // 31. Given a string, return an object containing tallies of each letter.
 // letterTally('potato'); // {p:1, o:2, t:2, a:1}
 var letterTally = function(str, obj) {
+  // keep an object of each letter
+  // if some letter key exists
+    // obj[key] += 1
+  // if it doesn't yet
+    // obj[key] = 1;
+
+
 };
 
 // 32. Eliminate consecutive duplicates in a list. If the list contains repeated
